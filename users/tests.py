@@ -58,10 +58,10 @@ class UserModelTest(TestCase):
 
     def test_user_string_representation(self):
         """Test la représentation en chaîne de caractères de l'utilisateur"""
-        expected_opc = 'John Doe (Ordonnanceur Pilote Coordinateur)'
-        expected_mo = 'Jane Smith (Maître d\'ouvrage)'
-        self.assertEqual(str(self.opc_user), expected_opc)
-        self.assertEqual(str(self.maitre_ouvrage), expected_mo)
+        expected_admin = 'John Doe (Administrateur)'
+        expected_manager = 'Jane Smith (Gestionnaire)'
+        self.assertEqual(str(self.opc_user), expected_admin)
+        self.assertEqual(str(self.maitre_ouvrage), expected_manager)
 
     def test_user_company_and_phone(self):
         """Test les champs company et phone"""

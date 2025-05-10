@@ -40,15 +40,15 @@ class User(AbstractUser):
 
     @property
     def is_maitre_ouvrage(self):
-        return self.role == 'ADMIN'
+        return self.role == 'MANAGER'
 
     @property
     def is_entrepreneur(self):
-        return self.role == 'ADMIN'
+        return self.role == 'USER'
 
     @property
     def is_sous_traitant(self):
-        return self.role == 'ADMIN'
+        return False  # À adapter selon la logique métier
 
     def get_profile_picture_url(self):
         if self.profile_picture:
