@@ -1,0 +1,163 @@
+{% extends "base.html" %}
+
+{% block title %}Accueil - OPC Management{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="hero bg-primary text-white py-5">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-6">
+                <h1 class="display-4 fw-bold mb-4">
+                    <i class="fas fa-tasks me-3"></i>OPC Management
+                </h1>
+                <p class="lead mb-4">
+                    Solution complète pour l'Ordonnancement, le Pilotage et la Coordination de vos projets
+                </p>
+                {% if not user.is_authenticated %}
+                    <div class="d-grid gap-2 d-md-flex">
+                        <a href="{% url 'register' %}" class="btn btn-light btn-lg px-4 me-md-2">
+                            <i class="fas fa-user-plus me-2"></i>Commencer
+                        </a>
+                        <a href="{% url 'login' %}" class="btn btn-outline-light btn-lg px-4">
+                            <i class="fas fa-sign-in-alt me-2"></i>Se connecter
+                        </a>
+                    </div>
+                {% else %}
+                    <div class="d-grid gap-2 d-md-flex">
+                        <a href="{% url 'profile' %}" class="btn btn-light btn-lg px-4">
+                            <i class="fas fa-user me-2"></i>Mon espace
+                        </a>
+                    </div>
+                {% endif %}
+            </div>
+            <div class="col-lg-6 d-none d-lg-block">
+                <img src="https://cdn-icons-png.flaticon.com/512/1534/1534939.png" alt="OPC Illustration" class="img-fluid">
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Features Section -->
+<section class="py-5">
+    <div class="container">
+        <h2 class="text-center mb-5">Nos fonctionnalités principales</h2>
+        <div class="row g-4">
+            <div class="col-md-4">
+                <div class="card h-100 border-0 shadow-sm">
+                    <div class="card-body text-center p-4">
+                        <div class="feature-icon bg-primary bg-gradient text-white rounded-circle mb-3">
+                            <i class="fas fa-calendar-check fa-2x"></i>
+                        </div>
+                        <h3 class="h5 mb-3">Ordonnancement</h3>
+                        <p class="text-muted mb-0">
+                            Planifiez et organisez vos projets avec précision grâce à nos outils d'ordonnancement avancés.
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card h-100 border-0 shadow-sm">
+                    <div class="card-body text-center p-4">
+                        <div class="feature-icon bg-primary bg-gradient text-white rounded-circle mb-3">
+                            <i class="fas fa-chart-line fa-2x"></i>
+                        </div>
+                        <h3 class="h5 mb-3">Pilotage</h3>
+                        <p class="text-muted mb-0">
+                            Suivez l'avancement de vos projets en temps réel et prenez des décisions éclairées.
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card h-100 border-0 shadow-sm">
+                    <div class="card-body text-center p-4">
+                        <div class="feature-icon bg-primary bg-gradient text-white rounded-circle mb-3">
+                            <i class="fas fa-users fa-2x"></i>
+                        </div>
+                        <h3 class="h5 mb-3">Coordination</h3>
+                        <p class="text-muted mb-0">
+                            Facilitez la collaboration entre les différents acteurs de vos projets.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Benefits Section -->
+<section class="py-5 bg-light">
+    <div class="container">
+        <h2 class="text-center mb-5">Pourquoi choisir OPC Management ?</h2>
+        <div class="row g-4">
+            <div class="col-md-6 col-lg-3">
+                <div class="d-flex align-items-center mb-3">
+                    <i class="fas fa-check-circle text-primary fa-2x me-3"></i>
+                    <h3 class="h6 mb-0">Interface intuitive</h3>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-3">
+                <div class="d-flex align-items-center mb-3">
+                    <i class="fas fa-check-circle text-primary fa-2x me-3"></i>
+                    <h3 class="h6 mb-0">Sécurité renforcée</h3>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-3">
+                <div class="d-flex align-items-center mb-3">
+                    <i class="fas fa-check-circle text-primary fa-2x me-3"></i>
+                    <h3 class="h6 mb-0">Support réactif</h3>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-3">
+                <div class="d-flex align-items-center mb-3">
+                    <i class="fas fa-check-circle text-primary fa-2x me-3"></i>
+                    <h3 class="h6 mb-0">Mises à jour régulières</h3>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CTA Section -->
+<section class="py-5">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-8 text-center">
+                <h2 class="mb-4">Prêt à optimiser la gestion de vos projets ?</h2>
+                <p class="lead mb-4">
+                    Rejoignez dès maintenant notre communauté d'utilisateurs satisfaits.
+                </p>
+                {% if not user.is_authenticated %}
+                    <a href="{% url 'register' %}" class="btn btn-primary btn-lg px-5">
+                        <i class="fas fa-rocket me-2"></i>Commencer gratuitement
+                    </a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</section>
+
+<style>
+.hero {
+    background: linear-gradient(135deg, #0d6efd 0%, #0a58ca 100%);
+}
+
+.feature-icon {
+    width: 80px;
+    height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto;
+}
+
+.card {
+    transition: transform 0.2s;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+}
+</style>
+{% endblock %} 
