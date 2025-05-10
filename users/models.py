@@ -4,21 +4,16 @@ from django.utils.translation import gettext_lazy as _
 from django.core.exceptions import ValidationError
 
 class User(AbstractUser):
-    class Role(models.TextChoices):
-        ADMIN = 'ADMIN', _('Administrateur')
-        OPC = 'OPC', _('Ordonnanceur Pilote Coordinateur')
-        MAITRE_OUVRAGE = 'MAITRE_OUVRAGE', _('Maître d\'ouvrage')
-        ENTREPRENEUR = 'ENTREPRENEUR', _('Entrepreneur')
-        SOUS_TRAITANT = 'SOUS_TRAITANT', _('Sous-traitant')
-
-    role = models.CharField(
-        max_length=20,
-        choices=Role.choices,
-        default=Role.OPC,
-        verbose_name=_('Rôle')
-    )
+    ROLE_CHOICES = [
+        ('ADMIN', 'Administrateur'),
+        ('MANAGER', 'Gestionnaire'),
+        ('USER', 'Utilisateur'),
+    ]
+    
+    role = models.CharField(max_length=10, choices=ROLE_CHOICES, default='USER')
     company = models.CharField(max_length=100, blank=True, verbose_name=_('Entreprise'))
     phone = models.CharField(max_length=20, blank=True, verbose_name=_('Téléphone'))
+    profile_picture = models.ImageField(upload_to='profile_pictures/', null=True, blank=True)
     is_active = models.BooleanField(default=True, verbose_name=_('Actif'))
     created_at = models.DateTimeField(auto_now_add=True, verbose_name=_('Créé le'))
     updated_at = models.DateTimeField(auto_now=True, verbose_name=_('Mis à jour le'))
@@ -32,10 +27,8 @@ class User(AbstractUser):
 
     def clean(self):
         super().clean()
-        if self.role not in dict(self.Role.choices):
-            raise ValidationError({
-                'role': _('Le rôle sélectionné n\'est pas valide.')
-            })
+        if self.role not in dict(self.ROLE_CHOICES):
+            raise ValidationError({'role': 'Rôle invalide'})
 
     def save(self, *args, **kwargs):
         self.full_clean()
@@ -43,16 +36,21 @@ class User(AbstractUser):
 
     @property
     def is_opc(self):
-        return self.role == self.Role.OPC
+        return self.role == 'ADMIN'
 
     @property
     def is_maitre_ouvrage(self):
-        return self.role == self.Role.MAITRE_OUVRAGE
+        return self.role == 'ADMIN'
 
     @property
     def is_entrepreneur(self):
-        return self.role == self.Role.ENTREPRENEUR
+        return self.role == 'ADMIN'
 
     @property
     def is_sous_traitant(self):
-        return self.role == self.Role.SOUS_TRAITANT
+        return self.role == 'ADMIN'
+
+    def get_profile_picture_url(self):
+        if self.profile_picture:
+            return self.profile_picture.url
+        return '/static/images/default-avatar.png'

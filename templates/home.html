@@ -1,85 +1,81 @@
 {% extends "base.html" %}
+{% load static %}
 
-{% block title %}Accueil - OPC Management{% endblock %}
+{% block title %}Accueil - LÔN-BTP{% endblock %}
 
 {% block content %}
 <!-- Hero Section -->
-<section class="hero bg-primary text-white py-5">
-    <div class="container">
-        <div class="row align-items-center">
-            <div class="col-lg-6">
-                <h1 class="display-4 fw-bold mb-4">
-                    <i class="fas fa-tasks me-3"></i>OPC Management
-                </h1>
-                <p class="lead mb-4">
-                    Solution complète pour l'Ordonnancement, le Pilotage et la Coordination de vos projets
-                </p>
-                {% if not user.is_authenticated %}
-                    <div class="d-grid gap-2 d-md-flex">
-                        <a href="{% url 'register' %}" class="btn btn-light btn-lg px-4 me-md-2">
-                            <i class="fas fa-user-plus me-2"></i>Commencer
-                        </a>
-                        <a href="{% url 'login' %}" class="btn btn-outline-light btn-lg px-4">
-                            <i class="fas fa-sign-in-alt me-2"></i>Se connecter
-                        </a>
-                    </div>
+<section class="py-5">
+    <div class="row align-items-center">
+        <div class="col-lg-6">
+            <h1 class="display-4 fw-bold mb-4">Optimisez vos chantiers, maîtrisez vos coûts</h1>
+            <p class="lead mb-4">
+                LÔN-BTP est votre partenaire de confiance pour la gestion efficace de vos projets de construction. Notre solution complète vous permet de piloter vos chantiers avec précision et sérénité.
+            </p>
+            <div class="d-grid gap-2 d-md-flex justify-content-md-start">
+                {% if user.is_authenticated %}
+                    <a href="{% url 'dashboard' %}" class="btn btn-primary btn-lg px-4 me-md-2">
+                        <i class="ti ti-dashboard me-2"></i>Accéder au Dashboard
+                    </a>
                 {% else %}
-                    <div class="d-grid gap-2 d-md-flex">
-                        <a href="{% url 'profile' %}" class="btn btn-light btn-lg px-4">
-                            <i class="fas fa-user me-2"></i>Mon espace
-                        </a>
-                    </div>
+                    <a href="{% url 'register' %}" class="btn btn-primary btn-lg px-4 me-md-2">
+                        <i class="ti ti-rocket me-2"></i>Commencer gratuitement
+                    </a>
+                    <a href="{% url 'login' %}" class="btn btn-secondary btn-lg px-4">
+                        <i class="ti ti-login me-2"></i>Se connecter
+                    </a>
                 {% endif %}
             </div>
-            <div class="col-lg-6 d-none d-lg-block">
-                <img src="https://cdn-icons-png.flaticon.com/512/1534/1534939.png" alt="OPC Illustration" class="img-fluid">
-            </div>
+        </div>
+        <div class="col-lg-6 mt-5 mt-lg-0">
+            <img src="{% static 'images/default-company.png' %}" alt="LÔN-BTP" class="img-fluid rounded-3 shadow-lg">
         </div>
     </div>
 </section>
 
 <!-- Features Section -->
 <section class="py-5">
-    <div class="container">
-        <h2 class="text-center mb-5">Nos fonctionnalités principales</h2>
-        <div class="row g-4">
-            <div class="col-md-4">
-                <div class="card h-100 border-0 shadow-sm">
-                    <div class="card-body text-center p-4">
-                        <div class="feature-icon bg-primary bg-gradient text-white rounded-circle mb-3">
-                            <i class="fas fa-calendar-check fa-2x"></i>
-                        </div>
-                        <h3 class="h5 mb-3">Ordonnancement</h3>
-                        <p class="text-muted mb-0">
-                            Planifiez et organisez vos projets avec précision grâce à nos outils d'ordonnancement avancés.
-                        </p>
+    <div class="text-center mb-5">
+        <h2 class="fw-bold">Nos solutions pour votre succès</h2>
+        <p class="lead text-muted">Des outils puissants pour une gestion optimale de vos projets</p>
+    </div>
+    <div class="row g-4">
+        <div class="col-md-4">
+            <div class="card h-100">
+                <div class="card-body text-center p-4">
+                    <div class="feature-icon bg-primary bg-opacity-10 rounded-circle p-3 mb-3 mx-auto" style="width: 80px; height: 80px;">
+                        <i class="ti ti-calendar-event text-primary" style="font-size: 2rem;"></i>
                     </div>
+                    <h3 class="h5 mb-3">Ordonnancement</h3>
+                    <p class="text-muted mb-0">
+                        Planifiez et organisez vos projets avec précision grâce à nos outils d'ordonnancement avancés.
+                    </p>
                 </div>
             </div>
-            <div class="col-md-4">
-                <div class="card h-100 border-0 shadow-sm">
-                    <div class="card-body text-center p-4">
-                        <div class="feature-icon bg-primary bg-gradient text-white rounded-circle mb-3">
-                            <i class="fas fa-chart-line fa-2x"></i>
-                        </div>
-                        <h3 class="h5 mb-3">Pilotage</h3>
-                        <p class="text-muted mb-0">
-                            Suivez l'avancement de vos projets en temps réel et prenez des décisions éclairées.
-                        </p>
+        </div>
+        <div class="col-md-4">
+            <div class="card h-100">
+                <div class="card-body text-center p-4">
+                    <div class="feature-icon bg-primary bg-opacity-10 rounded-circle p-3 mb-3 mx-auto" style="width: 80px; height: 80px;">
+                        <i class="ti ti-chart-bar text-primary" style="font-size: 2rem;"></i>
                     </div>
+                    <h3 class="h5 mb-3">Pilotage</h3>
+                    <p class="text-muted mb-0">
+                        Suivez l'avancement de vos projets en temps réel et prenez des décisions éclairées.
+                    </p>
                 </div>
             </div>
-            <div class="col-md-4">
-                <div class="card h-100 border-0 shadow-sm">
-                    <div class="card-body text-center p-4">
-                        <div class="feature-icon bg-primary bg-gradient text-white rounded-circle mb-3">
-                            <i class="fas fa-users fa-2x"></i>
-                        </div>
-                        <h3 class="h5 mb-3">Coordination</h3>
-                        <p class="text-muted mb-0">
-                            Facilitez la collaboration entre les différents acteurs de vos projets.
-                        </p>
+        </div>
+        <div class="col-md-4">
+            <div class="card h-100">
+                <div class="card-body text-center p-4">
+                    <div class="feature-icon bg-primary bg-opacity-10 rounded-circle p-3 mb-3 mx-auto" style="width: 80px; height: 80px;">
+                        <i class="ti ti-users text-primary" style="font-size: 2rem;"></i>
                     </div>
+                    <h3 class="h5 mb-3">Coordination</h3>
+                    <p class="text-muted mb-0">
+                        Facilitez la collaboration entre les différents acteurs de vos projets.
+                    </p>
                 </div>
             </div>
         </div>
@@ -87,32 +83,55 @@
 </section>
 
 <!-- Benefits Section -->
-<section class="py-5 bg-light">
+<section class="py-5 bg-white rounded-3">
     <div class="container">
-        <h2 class="text-center mb-5">Pourquoi choisir OPC Management ?</h2>
+        <div class="text-center mb-5">
+            <h2 class="fw-bold">Pourquoi choisir LÔN-BTP ?</h2>
+            <p class="lead text-muted">Des avantages concrets pour votre entreprise</p>
+        </div>
         <div class="row g-4">
             <div class="col-md-6 col-lg-3">
                 <div class="d-flex align-items-center mb-3">
-                    <i class="fas fa-check-circle text-primary fa-2x me-3"></i>
-                    <h3 class="h6 mb-0">Interface intuitive</h3>
+                    <div class="feature-icon bg-primary bg-opacity-10 rounded-circle p-2 me-3">
+                        <i class="ti ti-device-laptop text-primary"></i>
+                    </div>
+                    <div>
+                        <h3 class="h6 mb-0">Interface intuitive</h3>
+                        <p class="small text-muted mb-0">Prise en main rapide</p>
+                    </div>
                 </div>
             </div>
             <div class="col-md-6 col-lg-3">
                 <div class="d-flex align-items-center mb-3">
-                    <i class="fas fa-check-circle text-primary fa-2x me-3"></i>
-                    <h3 class="h6 mb-0">Sécurité renforcée</h3>
+                    <div class="feature-icon bg-primary bg-opacity-10 rounded-circle p-2 me-3">
+                        <i class="ti ti-shield-check text-primary"></i>
+                    </div>
+                    <div>
+                        <h3 class="h6 mb-0">Sécurité renforcée</h3>
+                        <p class="small text-muted mb-0">Protection des données</p>
+                    </div>
                 </div>
             </div>
             <div class="col-md-6 col-lg-3">
                 <div class="d-flex align-items-center mb-3">
-                    <i class="fas fa-check-circle text-primary fa-2x me-3"></i>
-                    <h3 class="h6 mb-0">Support réactif</h3>
+                    <div class="feature-icon bg-primary bg-opacity-10 rounded-circle p-2 me-3">
+                        <i class="ti ti-headset text-primary"></i>
+                    </div>
+                    <div>
+                        <h3 class="h6 mb-0">Support réactif</h3>
+                        <p class="small text-muted mb-0">Assistance 24/7</p>
+                    </div>
                 </div>
             </div>
             <div class="col-md-6 col-lg-3">
                 <div class="d-flex align-items-center mb-3">
-                    <i class="fas fa-check-circle text-primary fa-2x me-3"></i>
-                    <h3 class="h6 mb-0">Mises à jour régulières</h3>
+                    <div class="feature-icon bg-primary bg-opacity-10 rounded-circle p-2 me-3">
+                        <i class="ti ti-refresh text-primary"></i>
+                    </div>
+                    <div>
+                        <h3 class="h6 mb-0">Mises à jour régulières</h3>
+                        <p class="small text-muted mb-0">Évolution continue</p>
+                    </div>
                 </div>
             </div>
         </div>
@@ -124,40 +143,17 @@
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-md-8 text-center">
-                <h2 class="mb-4">Prêt à optimiser la gestion de vos projets ?</h2>
+                <h2 class="fw-bold mb-4">Prêt à optimiser la gestion de vos projets ?</h2>
                 <p class="lead mb-4">
                     Rejoignez dès maintenant notre communauté d'utilisateurs satisfaits.
                 </p>
                 {% if not user.is_authenticated %}
                     <a href="{% url 'register' %}" class="btn btn-primary btn-lg px-5">
-                        <i class="fas fa-rocket me-2"></i>Commencer gratuitement
+                        <i class="ti ti-rocket me-2"></i>Commencer gratuitement
                     </a>
                 {% endif %}
             </div>
         </div>
     </div>
 </section>
-
-<style>
-.hero {
-    background: linear-gradient(135deg, #0d6efd 0%, #0a58ca 100%);
-}
-
-.feature-icon {
-    width: 80px;
-    height: 80px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin: 0 auto;
-}
-
-.card {
-    transition: transform 0.2s;
-}
-
-.card:hover {
-    transform: translateY(-5px);
-}
-</style>
 {% endblock %} 
