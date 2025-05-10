@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.utils.translation import gettext_lazy as _
+from django.core.exceptions import ValidationError
 
 class User(AbstractUser):
     class Role(models.TextChoices):
@@ -28,6 +29,17 @@ class User(AbstractUser):
 
     def __str__(self):
         return f"{self.get_full_name()} ({self.get_role_display()})"
+
+    def clean(self):
+        super().clean()
+        if self.role not in dict(self.Role.choices):
+            raise ValidationError({
+                'role': _('Le rôle sélectionné n\'est pas valide.')
+            })
+
+    def save(self, *args, **kwargs):
+        self.full_clean()
+        super().save(*args, **kwargs)
 
     @property
     def is_opc(self):
