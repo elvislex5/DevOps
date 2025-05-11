@@ -24,12 +24,21 @@ class CustomLogoutView(LogoutView):
         return super().dispatch(request, *args, **kwargs)
 
 class UserRegistrationForm(forms.ModelForm):
-    password1 = forms.CharField(label='Mot de passe', widget=forms.PasswordInput)
-    password2 = forms.CharField(label='Confirmer le mot de passe', widget=forms.PasswordInput)
+    password1 = forms.CharField(label='Mot de passe', widget=forms.PasswordInput(attrs={'class': 'form-control'}))
+    password2 = forms.CharField(label='Confirmer le mot de passe', widget=forms.PasswordInput(attrs={'class': 'form-control'}))
 
     class Meta:
         model = User
         fields = ['username', 'email', 'first_name', 'last_name', 'role', 'company', 'phone']
+        widgets = {
+            'username': forms.TextInput(attrs={'class': 'form-control'}),
+            'email': forms.EmailInput(attrs={'class': 'form-control'}),
+            'first_name': forms.TextInput(attrs={'class': 'form-control'}),
+            'last_name': forms.TextInput(attrs={'class': 'form-control'}),
+            'role': forms.Select(attrs={'class': 'form-select'}),
+            'company': forms.TextInput(attrs={'class': 'form-control'}),
+            'phone': forms.TextInput(attrs={'class': 'form-control'}),
+        }
 
     def clean_password2(self):
         password1 = self.cleaned_data.get('password1')
