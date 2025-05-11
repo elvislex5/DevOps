@@ -36,14 +36,7 @@ CSRF_TRUSTED_ORIGINS = [
 ]
 
 # ALLOWED_HOSTS dynamiques (localhost + domaines du .env)
-ALLOWED_HOSTS = [
-    "localhost",
-    "127.0.0.1",
-] + [
-    host.replace("https://", "").replace("http://", "")
-    for host in os.getenv("CSRF_TRUSTED_ORIGINS", "").split(",")
-    if host.strip()
-]
+ALLOWED_HOSTS = ["*"]
 
 # Application definition
 INSTALLED_APPS = [
