@@ -12,6 +12,9 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 
 from pathlib import Path
 import os
+from dotenv import load_dotenv
+
+load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -25,10 +28,21 @@ SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', "django-insecure-!isa)8!q+vuzdv
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.environ.get('DJANGO_DEBUG', '') != 'False'
 
+# CSRF trusted origins dynamiques depuis .env
+CSRF_TRUSTED_ORIGINS = [
+    origin.strip()
+    for origin in os.getenv("CSRF_TRUSTED_ORIGINS", "").split(",")
+    if origin.strip()
+]
+
+# ALLOWED_HOSTS dynamiques (localhost + domaines du .env)
 ALLOWED_HOSTS = [
-    'localhost',
-    '127.0.0.1',
-    'devops-production-d450.up.railway.app',
+    "localhost",
+    "127.0.0.1",
+] + [
+    host.replace("https://", "").replace("http://", "")
+    for host in os.getenv("CSRF_TRUSTED_ORIGINS", "").split(",")
+    if host.strip()
 ]
 
 # Application definition
