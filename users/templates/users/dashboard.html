@@ -1,0 +1,425 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Tableau de bord - LÔN-BTP{% endblock %}
+
+{% block extra_css %}
+<style>
+    body {
+        background: linear-gradient(120deg, #e0e7ef 0%, #f5f7fa 100%);
+    }
+    .modern-sidebar {
+        background: linear-gradient(135deg, rgba(255,255,255,0.95) 60%, rgba(224,231,239,0.85) 100%);
+        box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.13);
+        backdrop-filter: blur(12px);
+        border-radius: 32px;
+        border: 1px solid rgba(255,255,255,0.22);
+        min-width: 240px;
+        max-width: 260px;
+        margin: 2.5rem 2rem 2.5rem 0;
+        padding: 2.2rem 1.2rem 1.2rem 1.2rem;
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        transition: box-shadow 0.2s;
+        overflow: hidden;
+    }
+    .modern-sidebar:after {
+        content: '';
+        position: absolute;
+        top: 0; right: -18px; bottom: 0;
+        width: 2px;
+        background: linear-gradient(180deg, #e0e7ef 0%, #f5f7fa 100%);
+        opacity: 0.7;
+        border-radius: 2px;
+    }
+    .sidebar-logo {
+        font-weight: 700;
+        font-size: 1.3rem;
+        color: #003366;
+        letter-spacing: 0.04em;
+        margin-bottom: 2.5rem;
+        text-align: center;
+        opacity: 0.92;
+    }
+    .sidebar-nav {
+        margin-bottom: 2.5rem;
+    }
+    .sidebar-nav .nav-link {
+        color: #003366 !important;
+        font-weight: 600;
+        border-radius: 16px;
+        margin-bottom: 18px;
+        font-size: 1.15rem;
+        padding: 0.95rem 1.3rem;
+        transition: background 0.18s, color 0.18s, transform 0.18s;
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        letter-spacing: 0.01em;
+        position: relative;
+        z-index: 1;
+        box-shadow: none;
+    }
+    .sidebar-nav .nav-link.active {
+        background: rgba(0,51,102,0.10);
+        color: #FFB400 !important;
+        font-weight: 700;
+        box-shadow: 0 2px 12px 0 rgba(0,0,0,0.04);
+    }
+    .sidebar-nav .nav-link.active:before {
+        content: '';
+        position: absolute;
+        left: 0.5rem; top: 50%;
+        transform: translateY(-50%);
+        width: 4px; height: 56%;
+        background: linear-gradient(180deg, #FFB400 0%, #FFD966 100%);
+        border-radius: 6px;
+        opacity: 0.85;
+        z-index: 2;
+    }
+    .sidebar-nav .nav-link:hover {
+        background: rgba(0,51,102,0.07);
+        color: #003366 !important;
+        transform: translateX(6px) scale(1.04);
+        box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+    }
+    .sidebar-nav .nav-link i {
+        font-size: 1.7rem;
+        opacity: 0.92;
+        background: none;
+        border-radius: 50%;
+        padding: 0.2rem;
+        transition: background 0.18s, color 0.18s;
+    }
+    .sidebar-nav .nav-link.active i {
+        background: #FFB40022;
+        color: #FFB400 !important;
+        box-shadow: 0 2px 8px #FFB40022;
+    }
+    .sidebar-nav .nav-link:hover i {
+        background: #00336611;
+    }
+    .sidebar-user {
+        text-align: center;
+        padding-top: 1.5rem;
+        border-top: 1px solid #e0e7ef;
+    }
+    .sidebar-user img {
+        width: 56px; height: 56px; object-fit: cover;
+        border-radius: 50%;
+        margin-bottom: 0.5rem;
+        border: 2px solid #e0e7ef;
+    }
+    .sidebar-user .fw-semibold {
+        font-size: 1.08rem;
+        color: #003366;
+        font-weight: 600;
+    }
+    .sidebar-user .text-muted {
+        font-size: 0.98rem;
+        color: #6c7a89 !important;
+    }
+    @media (max-width: 991px) {
+        .modern-sidebar {
+            min-width: 100px;
+            max-width: 100vw;
+            margin: 1rem 0.5rem 1rem 0;
+            padding: 1.2rem 0.5rem 0.5rem 0.5rem;
+            border-radius: 24px;
+        }
+        .sidebar-logo { font-size: 1.1rem; margin-bottom: 1.2rem; }
+        .sidebar-nav .nav-link { font-size: 1rem; padding: 0.7rem 0.7rem; }
+    }
+    .modern-card {
+        border-radius: 20px;
+        box-shadow: 0 4px 24px 0 rgba(0,0,0,0.07);
+        border: none;
+        background: #fff;
+        transition: box-shadow 0.2s, transform 0.2s;
+        position: relative;
+        overflow: hidden;
+        min-height: 140px;
+    }
+    .modern-card .card-icon-bg {
+        position: absolute;
+        right: 18px;
+        top: 18px;
+        font-size: 3.5rem;
+        color: #f5f7fa;
+        z-index: 0;
+    }
+    .modern-card .card-body {
+        position: relative;
+        z-index: 1;
+    }
+    .modern-card .stat-label {
+        font-size: 1.05rem;
+        color: #6c7a89;
+        font-weight: 500;
+        margin-bottom: 0.5rem;
+    }
+    .modern-card .stat-value {
+        font-size: 2.3rem;
+        font-weight: 700;
+        color: #003366;
+    }
+    .dashboard-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 2.5rem;
+    }
+    .dashboard-header h2 {
+        font-size: 2.3rem;
+        font-weight: 700;
+        color: #003366;
+        margin-bottom: 0;
+        letter-spacing: 0.01em;
+    }
+    .dashboard-header .today-date {
+        color: #6c7a89;
+        font-size: 1.1rem;
+        font-weight: 500;
+        margin-left: 1.5rem;
+    }
+    .dashboard-header .btn-group {
+        margin-left: auto;
+    }
+    .action-cards-row {
+        margin-bottom: 2.5rem;
+        margin-top: 0.5rem;
+    }
+    .action-card {
+        border-radius: 18px;
+        background: linear-gradient(120deg, #f5f7fa 60%, #e0e7ef 100%);
+        box-shadow: 0 2px 12px 0 rgba(0,0,0,0.04);
+        padding: 1.5rem 1.2rem;
+        text-align: center;
+        transition: box-shadow 0.2s, transform 0.2s, background 0.2s;
+        cursor: pointer;
+        border: none;
+        position: relative;
+        min-height: 120px;
+    }
+    .action-card:hover {
+        background: linear-gradient(120deg, #e0e7ef 60%, #f5f7fa 100%);
+        box-shadow: 0 6px 24px 0 rgba(31, 38, 135, 0.10);
+        transform: translateY(-2px) scale(1.03);
+    }
+    .action-card i {
+        font-size: 2.2rem;
+        color: #FFB400;
+        margin-bottom: 0.5rem;
+        display: block;
+    }
+    .action-card .action-label {
+        font-size: 1.08rem;
+        font-weight: 600;
+        color: #003366;
+    }
+    .recent-activity-title {
+        font-size: 1.2rem;
+        font-weight: 600;
+        color: #003366;
+        margin-bottom: 1.2rem;
+        letter-spacing: 0.01em;
+    }
+    .btn-group .dropdown-menu {
+        border-radius: 18px;
+        box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.13), 0 1.5px 6px 0 rgba(0,0,0,0.07);
+        border: none;
+        padding: 0.5rem 0;
+        min-width: 220px;
+        animation: dropdownFadeIn 0.22s cubic-bezier(.4,0,.2,1);
+        background: #fff;
+        margin-top: 10px !important;
+    }
+    @keyframes dropdownFadeIn {
+        from { opacity: 0; transform: translateY(10px) scale(0.98); }
+        to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+    .btn-group .dropdown-menu .dropdown-item {
+        display: flex;
+        align-items: center;
+        gap: 0.7rem;
+        font-size: 1.08rem;
+        font-weight: 500;
+        color: #003366;
+        padding: 0.75rem 1.3rem;
+        border-radius: 12px;
+        transition: background 0.18s, color 0.18s, transform 0.18s;
+        margin: 0 0.3rem;
+    }
+    .btn-group .dropdown-menu .dropdown-item i {
+        font-size: 1.3rem;
+        color: #FFB400;
+        opacity: 0.92;
+        min-width: 1.5rem;
+        text-align: center;
+    }
+    .btn-group .dropdown-menu .dropdown-item:hover, .btn-group .dropdown-menu .dropdown-item:focus {
+        background: linear-gradient(90deg, #f5f7fa 60%, #ffe9b3 100%);
+        color: #003366;
+        transform: translateX(0.5px) scale(0.9);
+    }
+    .btn-group .dropdown-menu .dropdown-item:active {
+        background: #FFB40022;
+        color: #003366;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="d-flex" style="min-height: 80vh;">
+    <!-- Sidebar -->
+    <aside class="modern-sidebar">
+        <div>
+            <div class="sidebar-logo">LÔN<span style="color:#FFB400;">-BTP</span></div>
+            <nav class="sidebar-nav nav flex-column">
+                <a class="nav-link d-flex align-items-center {% if request.resolver_match.url_name == 'dashboard' %}active fw-bold{% endif %}" href="{% url 'dashboard' %}">
+                    <i class="ti ti-layout-dashboard"></i>Tableau de bord
+                </a>
+                <a class="nav-link d-flex align-items-center" href="#">
+                    <i class="ti ti-folder"></i>Projets
+                </a>
+                <a class="nav-link d-flex align-items-center" href="#">
+                    <i class="ti ti-calendar-event"></i>Tâches
+                </a>
+                <a class="nav-link d-flex align-items-center" href="#">
+                    <i class="ti ti-file-text"></i>Rapports
+                </a>
+            </nav>
+        </div>
+        <div class="sidebar-user">
+            <img src="{{ user.get_profile_picture_url }}" alt="Avatar" class="mb-2">
+            <div class="fw-semibold">{{ user.get_full_name|default:user.username }}</div>
+            <div class="text-muted small">{{ user.get_role_display }}</div>
+        </div>
+    </aside>
+    <!-- Main Content -->
+    <section class="flex-grow-1 p-5" style="background: transparent; border-radius: 0 24px 24px 0;" id="dashboard-main-content">
+        <div class="dashboard-header">
+            <div class="d-flex align-items-center">
+                <h2><i class="ti ti-layout-dashboard me-2"></i>Tableau de bord</h2>
+                <span class="today-date">{% now "l d F Y" %}</span>
+            </div>
+            <div class="btn-group">
+                <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                    <i class="ti ti-plus me-1"></i>Créer
+                </button>
+                <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" href="#"><i class="ti ti-folder-plus me-2"></i>Nouveau projet</a></li>
+                    <li><a class="dropdown-item" href="#"><i class="ti ti-calendar-plus me-2"></i>Nouvelle tâche</a></li>
+                    <li><a class="dropdown-item" href="#"><i class="ti ti-file-plus me-2"></i>Nouveau rapport</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="row g-4 mb-4">
+            <div class="col-md-4">
+                <div class="modern-card card">
+                    <div class="card-body">
+                        <span class="card-icon-bg"><i class="ti ti-building"></i></span>
+                        <div class="stat-label">Projets totaux</div>
+                        <div class="stat-value">{{ total_projects }}</div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="modern-card card">
+                    <div class="card-body">
+                        <span class="card-icon-bg"><i class="ti ti-rocket"></i></span>
+                        <div class="stat-label">Projets actifs</div>
+                        <div class="stat-value">{{ active_projects }}</div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="modern-card card">
+                    <div class="card-body">
+                        <span class="card-icon-bg"><i class="ti ti-calendar-event"></i></span>
+                        <div class="stat-label">Tâches à venir</div>
+                        <div class="stat-value">{{ upcoming_tasks|length }}</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row action-cards-row g-4 mb-4">
+            <div class="col-md-4">
+                <div class="action-card" tabindex="0">
+                    <i class="ti ti-folder-plus"></i>
+                    <div class="action-label">Nouveau projet</div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="action-card" tabindex="0">
+                    <i class="ti ti-calendar-plus"></i>
+                    <div class="action-label">Nouvelle tâche</div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="action-card" tabindex="0">
+                    <i class="ti ti-file-plus"></i>
+                    <div class="action-label">Nouveau rapport</div>
+                </div>
+            </div>
+        </div>
+        <div class="mt-5">
+            <div class="recent-activity-title"><i class="ti ti-history me-2"></i>Activité récente</div>
+            <div class="list-group list-group-flush">
+                {% if upcoming_tasks %}
+                    {% for task in upcoming_tasks %}
+                        <div class="list-group-item">
+                            <div class="d-flex w-100 justify-content-between">
+                                <h6 class="mb-1">{{ task.title }}</h6>
+                                <small class="text-muted">{{ task.due_date|date:"d/m/Y" }}</small>
+                            </div>
+                            <p class="mb-1">{{ task.description }}</p>
+                        </div>
+                    {% endfor %}
+                {% else %}
+                    <div class="text-center py-4">
+                        <i class="fas fa-inbox fa-3x text-muted mb-3"></i>
+                        <p class="text-muted">Aucune activité récente</p>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </section>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const mainContent = document.getElementById('dashboard-main-content');
+    function loadFragment(url) {
+        fetch(url)
+            .then(response => response.text())
+            .then(html => {
+                mainContent.innerHTML = html;
+                attachProfileEditHandler();
+            });
+    }
+    function attachProfileHandler() {
+        document.querySelectorAll('[data-load="profile"]').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                loadFragment('/users/profile/fragment/');
+            });
+        });
+    }
+    function attachProfileEditHandler() {
+        document.querySelectorAll('[data-load="profile-edit"]').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                loadFragment('/users/profile/edit/fragment/');
+            });
+        });
+    }
+    attachProfileHandler();
+    attachProfileEditHandler();
+});
+</script>
+{% endblock %} 

@@ -5,26 +5,26 @@ from .models import User
 
 class UserModelTest(TestCase):
     def setUp(self):
-        # Création d'un utilisateur OPC de test
+        # Création d'un utilisateur ADMIN de test
         self.opc_user = User.objects.create_user(
             username='opc_user',
             email='opc@example.com',
             password='testpass123',
             first_name='John',
             last_name='Doe',
-            role=User.Role.OPC,
+            role='ADMIN',
             company='Test Company',
             phone='0123456789'
         )
 
-        # Création d'un utilisateur Maître d'ouvrage de test
+        # Création d'un utilisateur MANAGER de test
         self.maitre_ouvrage = User.objects.create_user(
             username='mo_user',
             email='mo@example.com',
             password='testpass123',
             first_name='Jane',
             last_name='Smith',
-            role=User.Role.MAITRE_OUVRAGE,
+            role='MANAGER',
             company='MO Company'
         )
 
@@ -39,10 +39,10 @@ class UserModelTest(TestCase):
 
     def test_user_roles(self):
         """Test les différents rôles d'utilisateur"""
-        self.assertEqual(self.opc_user.role, User.Role.OPC)
-        self.assertEqual(self.maitre_ouvrage.role, User.Role.MAITRE_OUVRAGE)
-        self.assertEqual(str(self.opc_user.get_role_display()), 'Ordonnanceur Pilote Coordinateur')
-        self.assertEqual(str(self.maitre_ouvrage.get_role_display()), 'Maître d\'ouvrage')
+        self.assertEqual(self.opc_user.role, 'ADMIN')
+        self.assertEqual(self.maitre_ouvrage.role, 'MANAGER')
+        self.assertEqual(str(self.opc_user.get_role_display()), 'Administrateur')
+        self.assertEqual(str(self.maitre_ouvrage.get_role_display()), 'Gestionnaire')
 
     def test_role_properties(self):
         """Test les propriétés de rôle"""
@@ -58,10 +58,10 @@ class UserModelTest(TestCase):
 
     def test_user_string_representation(self):
         """Test la représentation en chaîne de caractères de l'utilisateur"""
-        expected_opc = 'John Doe (Ordonnanceur Pilote Coordinateur)'
-        expected_mo = 'Jane Smith (Maître d\'ouvrage)'
-        self.assertEqual(str(self.opc_user), expected_opc)
-        self.assertEqual(str(self.maitre_ouvrage), expected_mo)
+        expected_admin = 'John Doe (Administrateur)'
+        expected_manager = 'Jane Smith (Gestionnaire)'
+        self.assertEqual(str(self.opc_user), expected_admin)
+        self.assertEqual(str(self.maitre_ouvrage), expected_manager)
 
     def test_user_company_and_phone(self):
         """Test les champs company et phone"""
