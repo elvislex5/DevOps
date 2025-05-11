@@ -1,57 +1,156 @@
 {% extends "base.html" %}
 
-{% block title %}Connexion - OPC Management{% endblock %}
+{% block title %}Connexion - LÔN-BTP{% endblock %}
+
+{% block extra_css %}
+<style>
+    body {
+        background: linear-gradient(120deg, #e0e7ef 0%, #f5f7fa 100%);
+    }
+    .login-glass-card {
+        background: rgba(255,255,255,0.92);
+        box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.13);
+        backdrop-filter: blur(10px);
+        border-radius: 32px;
+        border: 1px solid rgba(255,255,255,0.22);
+        padding: 2.5rem 2.2rem 2rem 2.2rem;
+        margin-top: 2.5rem;
+        margin-bottom: 2.5rem;
+    }
+    .login-title {
+        font-size: 2.1rem;
+        font-weight: 700;
+        color: #003366;
+        letter-spacing: 0.01em;
+        margin-bottom: 0.5rem;
+    }
+    .login-subtitle {
+        color: #6c7a89;
+        font-size: 1.1rem;
+        margin-bottom: 2.2rem;
+        text-align: center;
+    }
+    .custom-field {
+        position: relative;
+        margin-bottom: 1.5rem;
+    }
+    .custom-field input {
+        border-radius: 14px;
+        font-size: 1.08rem;
+        padding-left: 2.5rem;
+        background: #f5f7fa;
+        border: 1.5px solid #e0e7ef;
+        transition: border-color 0.2s, box-shadow 0.2s;
+        width: 100%;
+        height: 48px;
+    }
+    .custom-field input:focus {
+        border-color: #FFB400;
+        box-shadow: 0 0 0 2px #FFB40033;
+        background: #fff;
+    }
+    .custom-field label {
+        position: absolute;
+        left: 2.5rem;
+        top: -0.9rem;
+        background: #fff;
+        padding: 0 0.4rem;
+        font-size: 1.01rem;
+        color: #003366;
+        font-weight: 500;
+        opacity: 0.85;
+        z-index: 2;
+        pointer-events: none;
+    }
+    .custom-field .input-icon {
+        position: absolute;
+        left: 1rem;
+        top: 50%;
+        transform: translateY(-50%);
+        color: #FFB400;
+        font-size: 1.2rem;
+        opacity: 0.92;
+        pointer-events: none;
+    }
+    .login-btn {
+        font-size: 1.15rem;
+        border-radius: 14px;
+        font-weight: 600;
+        padding: 0.85rem 0;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+        transition: box-shadow 0.18s, transform 0.18s;
+    }
+    .login-btn:hover {
+        box-shadow: 0 6px 24px 0 rgba(31, 38, 135, 0.10);
+        transform: translateY(-2px) scale(1.03);
+    }
+    .invalid-feedback {
+        animation: fadeIn 0.3s;
+        color: #c62828;
+        font-size: 0.98rem;
+        margin-top: 0.2rem;
+    }
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(-6px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+    .login-links {
+        text-align: center;
+        margin-top: 1.5rem;
+    }
+    .login-links a {
+        color: #003366;
+        font-weight: 500;
+        text-decoration: underline;
+        transition: color 0.18s;
+    }
+    .login-links a:hover {
+        color: #FFB400;
+    }
+</style>
+{% endblock %}
 
 {% block content %}
-<div class="container">
+<div class="container py-5">
     <div class="row justify-content-center">
-        <div class="col-md-6 col-lg-5">
-            <div class="card shadow-sm mt-5">
-                <div class="card-body p-4">
-                    <h2 class="text-center mb-4">
-                        <i class="fas fa-sign-in-alt me-2"></i>Connexion
-                    </h2>
-                    
-                    {% if form.errors %}
-                        <div class="alert alert-danger">
-                            <i class="fas fa-exclamation-circle me-2"></i>
-                            Nom d'utilisateur ou mot de passe incorrect.
-                        </div>
-                    {% endif %}
-
-                    <form method="post" novalidate>
-                        {% csrf_token %}
-                        {% for field in form %}
-                            <div class="mb-3">
-                                <label for="{{ field.id_for_label }}" class="form-label">
-                                    {{ field.label }}
-                                </label>
-                                {{ field.errors }}
-                                <input type="{{ field.field.widget.input_type }}" 
-                                       name="{{ field.html_name }}"
-                                       id="{{ field.id_for_label }}"
-                                       class="form-control"
-                                       {% if field.field.required %}required{% endif %}>
-                                {% if field.help_text %}
-                                    <div class="form-text">{{ field.help_text }}</div>
-                                {% endif %}
-                            </div>
-                        {% endfor %}
-                        <div class="d-grid gap-2">
-                            <button type="submit" class="btn btn-primary">
-                                <i class="fas fa-sign-in-alt me-2"></i>Se connecter
-                            </button>
-                        </div>
-                    </form>
-
-                    <div class="text-center mt-4">
-                        <p class="mb-0">
-                            Pas encore de compte ? 
-                            <a href="{% url 'register' %}" class="text-decoration-none">
-                                S'inscrire
-                            </a>
-                        </p>
+        <div class="col-md-7 col-lg-6">
+            <div class="login-glass-card">
+                <div class="text-center mb-4">
+                    <div class="login-title">Connexion</div>
+                    <div class="login-subtitle">Accédez à votre espace LÔN-BTP et pilotez vos projets en toute sécurité.</div>
+                </div>
+                {% if form.errors %}
+                    <div class="alert alert-danger">
+                        <i class="fas fa-exclamation-circle me-2"></i>
+                        Veuillez corriger les erreurs ci-dessous.
                     </div>
+                {% endif %}
+                <form method="post" novalidate autocomplete="off">
+                    {% csrf_token %}
+                    <div class="custom-field">
+                        <i class="ti ti-user input-icon"></i>
+                        <label for="id_username">Nom d'utilisateur</label>
+                        {{ form.username }}
+                        {% if form.username.errors %}
+                            <div class="invalid-feedback d-block">{{ form.username.errors|striptags }}</div>
+                        {% endif %}
+                    </div>
+                    <div class="custom-field">
+                        <i class="ti ti-lock input-icon"></i>
+                        <label for="id_password">Mot de passe</label>
+                        {{ form.password }}
+                        {% if form.password.errors %}
+                            <div class="invalid-feedback d-block">{{ form.password.errors|striptags }}</div>
+                        {% endif %}
+                    </div>
+                    <div class="d-grid gap-2 mt-4">
+                        <button type="submit" class="btn btn-primary login-btn">
+                            <i class="ti ti-login me-2"></i>Se connecter
+                        </button>
+                    </div>
+                </form>
+                <div class="login-links mt-4">
+                    <span>Pas encore de compte ? <a href="{% url 'register' %}">Créer un compte</a></span>
                 </div>
             </div>
         </div>
